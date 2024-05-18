@@ -1,12 +1,10 @@
 FROM php:8.2-fpm
 
-COPY ./src /var/www
+
 
 # Copy composer.lock and composer.json
 COPY ./src/composer.lock ./src/composer.json /var/www/
 
-# Set working directory
-WORKDIR /var/www
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -32,9 +30,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
-
 # Copy existing application directory permissions
 COPY --chown=www:www ./src /var/www
+
+COPY ./src /var/www
+
+# Set working directory
+WORKDIR /var/www
 
 # Change current user to www
 USER www
