@@ -1,19 +1,7 @@
-set -e
-  
+docker-compose up -d --remove-orphans
 
+docker-compose exec app composer install
 
-echo "=== Execute docker-compose build... ==="
-docker-compose build
-echo "=== docker-compose build is done!! ==="
+docker-compose exec app php artisan key:generate
 
-echo "=== Installing composer... ==="
-docker-compose run app composer update
-echo "=== Composer build is done!! ==="
-
-echo "==== Generating the app key ==="
-docker-compose run app php artisan key:generate
-echo "==== App key generating is done!! ==="
-
-echo "==== Migrating and seed database ==="
-docker-compose run app php artisan migrate:fresh --seed
-echo "==== Migrating and seed database is done!! ==="
+docker-compose exec app php artisan migrate:fresh --seed

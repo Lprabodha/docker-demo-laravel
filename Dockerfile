@@ -1,7 +1,5 @@
 FROM php:8.2-fpm
 
-
-
 # Copy composer.lock and composer.json
 COPY ./src/composer.lock ./src/composer.json /var/www/
 
